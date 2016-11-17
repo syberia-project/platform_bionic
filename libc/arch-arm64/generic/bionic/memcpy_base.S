@@ -86,6 +86,11 @@
 #define H_l	src
 #define H_h	srcend
 #define tmp1	x14
+#define E_l	src
+#define E_h	count
+#define F_l	srcend
+#define F_h	dst
+#define tmp1	x9
 
 #define L(l) .L ## l
 
@@ -117,10 +122,12 @@
 	stp	A_l, A_h, [dstin]
 	stp	B_l, B_h, [dstin, 16]
 	stp	C_l, C_h, [dstend, -32]
+
 	stp	D_l, D_h, [dstend, -16]
 	ret
 
 	.p2align 4
+
 	/* Small copies: 0..32 bytes.  */
 L(copy32):
 	/* 16-32 bytes.  */
