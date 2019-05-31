@@ -42,15 +42,15 @@ static void ProcSelfReadlinkBody() {
 
 static void* ProcSelfReadlink(void*) {
   ProcSelfReadlinkBody();
-  return nullptr;
+  return NULL;
 }
 
 TEST(bug_26110743, ProcSelfReadlink) {
   pthread_t t;
-  ASSERT_EQ(0, pthread_create(&t, nullptr, ProcSelfReadlink, nullptr));
+  ASSERT_EQ(0, pthread_create(&t, NULL, ProcSelfReadlink, NULL));
   void* result;
   ASSERT_EQ(0, pthread_join(t, &result));
-  ASSERT_EQ(nullptr, result);
+  ASSERT_EQ(NULL, result);
 }
 
 TEST(bug_26110743, ProcSelfReadlink_NotDumpable) {
@@ -62,10 +62,10 @@ TEST(bug_26110743, ProcSelfReadlink_NotDumpable) {
   });
 
   pthread_t t;
-  ASSERT_EQ(0, pthread_create(&t, nullptr, ProcSelfReadlink, nullptr));
+  ASSERT_EQ(0, pthread_create(&t, NULL, ProcSelfReadlink, NULL));
   void* result;
   ASSERT_EQ(0, pthread_join(t, &result));
-  ASSERT_EQ(nullptr, result);
+  ASSERT_EQ(NULL, result);
 }
 
 static void ProcTaskFdReadlinkBody() {
@@ -86,15 +86,15 @@ static void ProcTaskFdReadlinkBody() {
 
 static void* ProcTaskFdReadlink(void*) {
   ProcTaskFdReadlinkBody();
-  return nullptr;
+  return NULL;
 }
 
 TEST(bug_26110743, ProcTaskFdReadlink) {
   pthread_t t;
-  ASSERT_EQ(0, pthread_create(&t, nullptr, ProcTaskFdReadlink, nullptr));
+  ASSERT_EQ(0, pthread_create(&t, NULL, ProcTaskFdReadlink, NULL));
   void* result;
   ASSERT_EQ(0, pthread_join(t, &result));
-  ASSERT_EQ(nullptr, result);
+  ASSERT_EQ(NULL, result);
 }
 
 TEST(bug_26110743, ProcTaskFdReadlink_NotDumpable) {
@@ -106,8 +106,8 @@ TEST(bug_26110743, ProcTaskFdReadlink_NotDumpable) {
   });
 
   pthread_t t;
-  ASSERT_EQ(0, pthread_create(&t, nullptr, ProcTaskFdReadlink, nullptr));
+  ASSERT_EQ(0, pthread_create(&t, NULL, ProcTaskFdReadlink, NULL));
   void* result;
   ASSERT_EQ(0, pthread_join(t, &result));
-  ASSERT_EQ(nullptr, result);
+  ASSERT_EQ(NULL, result);
 }

@@ -21,11 +21,11 @@
 
 #include <async_safe/log.h>
 
-static const char* syslog_log_tag = nullptr;
+static const char* syslog_log_tag = NULL;
 static int syslog_priority_mask = 0xff;
 
 void closelog() {
-  syslog_log_tag = nullptr;
+  syslog_log_tag = NULL;
 }
 
 void openlog(const char* log_tag, int /*options*/, int /*facility*/) {
@@ -58,7 +58,7 @@ void vsyslog(int priority, const char* fmt, va_list args) {
 
   // What's our log tag?
   const char* log_tag = syslog_log_tag;
-  if (log_tag == nullptr) {
+  if (log_tag == NULL) {
     log_tag = getprogname();
   }
 
@@ -78,7 +78,7 @@ void vsyslog(int priority, const char* fmt, va_list args) {
   // glibc's printf family support %m directly, but our BSD-based one doesn't.
   // If the format string seems to contain "%m", rewrite it.
   const char* log_fmt = fmt;
-  if (strstr(fmt, "%m") != nullptr) {
+  if (strstr(fmt, "%m") != NULL) {
     size_t dst_len = 1024;
     char* dst = reinterpret_cast<char*>(malloc(dst_len));
     log_fmt = dst;

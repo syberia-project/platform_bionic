@@ -214,7 +214,7 @@ void SystemProperties::ReadCallback(const prop_info* pi,
 int SystemProperties::Get(const char* name, char* value) {
   const prop_info* pi = Find(name);
 
-  if (pi != nullptr) {
+  if (pi != 0) {
     return Read(pi, nullptr, value);
   } else {
     value[0] = 0;

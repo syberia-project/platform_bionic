@@ -61,14 +61,14 @@ struct DIR {
 
 static DIR* __allocate_DIR(int fd) {
   DIR* d = reinterpret_cast<DIR*>(malloc(sizeof(DIR)));
-  if (d == nullptr) {
-    return nullptr;
+  if (d == NULL) {
+    return NULL;
   }
   d->fd_ = fd;
   d->available_bytes_ = 0;
-  d->next_ = nullptr;
+  d->next_ = NULL;
   d->current_pos_ = 0L;
-  pthread_mutex_init(&d->mutex_, nullptr);
+  pthread_mutex_init(&d->mutex_, NULL);
   return d;
 }
 
@@ -81,11 +81,11 @@ DIR* fdopendir(int fd) {
   // Is 'fd' actually a directory?
   struct stat sb;
   if (fstat(fd, &sb) == -1) {
-    return nullptr;
+    return NULL;
   }
   if (!S_ISDIR(sb.st_mode)) {
     errno = ENOTDIR;
-    return nullptr;
+    return NULL;
   }
 
   return __allocate_DIR(fd);
@@ -93,7 +93,7 @@ DIR* fdopendir(int fd) {
 
 DIR* opendir(const char* path) {
   int fd = open(path, O_CLOEXEC | O_DIRECTORY | O_RDONLY);
-  return (fd != -1) ? __allocate_DIR(fd) : nullptr;
+  return (fd != -1) ? __allocate_DIR(fd) : NULL;
 }
 
 static bool __fill_DIR(DIR* d) {
@@ -109,7 +109,7 @@ static bool __fill_DIR(DIR* d) {
 
 static dirent* __readdir_locked(DIR* d) {
   if (d->available_bytes_ == 0 && !__fill_DIR(d)) {
-    return nullptr;
+    return NULL;
   }
 
   dirent* entry = d->next_;
@@ -133,17 +133,17 @@ int readdir_r(DIR* d, dirent* entry, dirent** result) {
 
   ErrnoRestorer errno_restorer;
 
-  *result = nullptr;
+  *result = NULL;
   errno = 0;
 
   ScopedPthreadMutexLocker locker(&d->mutex_);
 
   dirent* next = __readdir_locked(d);
-  if (errno != 0 && next == nullptr) {
+  if (errno != 0 && next == NULL) {
     return errno;
   }
 
-  if (next != nullptr) {
+  if (next != NULL) {
     memcpy(entry, next, next->d_reclen);
     *result = entry;
   }
@@ -152,7 +152,7 @@ int readdir_r(DIR* d, dirent* entry, dirent** result) {
 __strong_alias(readdir64_r, readdir_r);
 
 int closedir(DIR* d) {
-  if (d == nullptr) {
+  if (d == NULL) {
     errno = EINVAL;
     return -1;
   }

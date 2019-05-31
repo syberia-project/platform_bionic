@@ -29,5 +29,5 @@
 #include <sys/socket.h>
 
 ssize_t recv(int socket, void *buf, size_t len, int flags) {
-  return recvfrom(socket, buf, len, flags, nullptr, nullptr);
+  return recvfrom(socket, buf, len, flags, NULL, 0);
 }

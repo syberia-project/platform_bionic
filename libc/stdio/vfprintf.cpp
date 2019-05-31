@@ -64,7 +64,7 @@ int FUNCTION_NAME(FILE* fp, const CHAR_TYPE* fmt0, va_list ap) {
    * D:	expchar holds this character; '\0' if no exponent, e.g. %f
    * F:	at least two digits for decimal, at least one digit for hex
    */
-  char* decimal_point = nullptr;
+  char* decimal_point = NULL;
   int signflag; /* true if float is negative */
   union {       /* floating point arguments %[aAeEfFgG] */
     double dbl;
@@ -77,7 +77,7 @@ int FUNCTION_NAME(FILE* fp, const CHAR_TYPE* fmt0, va_list ap) {
   int lead;                   /* sig figs before decimal or group sep */
   int ndig;                   /* actual number of digits returned by dtoa */
   CHAR_TYPE expstr[MAXEXPDIG + 2]; /* buffer for exponent string: e+ZZZ */
-  char* dtoaresult = nullptr;
+  char* dtoaresult = NULL;
 
   uintmax_t _umax;             /* integer arguments %[diouxX] */
   enum { OCT, DEC, HEX } base; /* base for %[diouxX] conversion */
@@ -146,14 +146,14 @@ int FUNCTION_NAME(FILE* fp, const CHAR_TYPE* fmt0, va_list ap) {
   }
 
   CHAR_TYPE* fmt = const_cast<CHAR_TYPE*>(fmt0);
-  argtable = nullptr;
+  argtable = NULL;
   nextarg = 1;
   va_copy(orgap, ap);
   uio.uio_iov = iovp = iov;
   uio.uio_resid = 0;
   uio.uio_iovcnt = 0;
   ret = 0;
-  convbuf = nullptr;
+  convbuf = NULL;
 
   /*
    * Scan the format for conversions (`%' character).
@@ -226,7 +226,7 @@ int FUNCTION_NAME(FILE* fp, const CHAR_TYPE* fmt0, va_list ap) {
         }
         if (ch == '$') {
           nextarg = n;
-          if (argtable == nullptr) {
+          if (argtable == NULL) {
             argtable = statargtable;
             if (__find_arguments(fmt0, orgap, &argtable, &argtablesiz) == -1) {
               ret = -1;
@@ -261,7 +261,7 @@ int FUNCTION_NAME(FILE* fp, const CHAR_TYPE* fmt0, va_list ap) {
         } while (is_digit(ch));
         if (ch == '$') {
           nextarg = n;
-          if (argtable == nullptr) {
+          if (argtable == NULL) {
             argtable = statargtable;
             if (__find_arguments(fmt0, orgap, &argtable, &argtablesiz) == -1) {
               ret = -1;
@@ -353,14 +353,14 @@ int FUNCTION_NAME(FILE* fp, const CHAR_TYPE* fmt0, va_list ap) {
         if (flags & LONGDBL) {
           fparg.ldbl = GETARG(long double);
           dtoaresult = cp = __hldtoa(fparg.ldbl, xdigs, prec, &expt, &signflag, &dtoaend);
-          if (dtoaresult == nullptr) {
+          if (dtoaresult == NULL) {
             errno = ENOMEM;
             goto error;
           }
         } else {
           fparg.dbl = GETARG(double);
           dtoaresult = cp = __hdtoa(fparg.dbl, xdigs, prec, &expt, &signflag, &dtoaend);
-          if (dtoaresult == nullptr) {
+          if (dtoaresult == NULL) {
             errno = ENOMEM;
             goto error;
           }
@@ -390,14 +390,14 @@ int FUNCTION_NAME(FILE* fp, const CHAR_TYPE* fmt0, va_list ap) {
         if (flags & LONGDBL) {
           fparg.ldbl = GETARG(long double);
           dtoaresult = cp = __ldtoa(&fparg.ldbl, expchar ? 2 : 3, prec, &expt, &signflag, &dtoaend);
-          if (dtoaresult == nullptr) {
+          if (dtoaresult == NULL) {
             errno = ENOMEM;
             goto error;
           }
         } else {
           fparg.dbl = GETARG(double);
           dtoaresult = cp = __dtoa(fparg.dbl, expchar ? 2 : 3, prec, &expt, &signflag, &dtoaend);
-          if (dtoaresult == nullptr) {
+          if (dtoaresult == NULL) {
             errno = ENOMEM;
             goto error;
           }
@@ -497,18 +497,18 @@ int FUNCTION_NAME(FILE* fp, const CHAR_TYPE* fmt0, va_list ap) {
           wchar_t* wcp;
 
           free(convbuf);
-          convbuf = nullptr;
-          if ((wcp = GETARG(wchar_t*)) == nullptr) {
+          convbuf = NULL;
+          if ((wcp = GETARG(wchar_t*)) == NULL) {
             cp = const_cast<char*>("(null)");
           } else {
             convbuf = helpers::wcsconv(wcp, prec);
-            if (convbuf == nullptr) {
+            if (convbuf == NULL) {
               ret = -1;
               goto error;
             }
             cp = convbuf;
           }
-        } else if ((cp = GETARG(char*)) == nullptr) {
+        } else if ((cp = GETARG(char*)) == NULL) {
           cp = const_cast<char*>("(null)");
         }
         if (prec >= 0) {
@@ -643,7 +643,7 @@ int FUNCTION_NAME(FILE* fp, const CHAR_TYPE* fmt0, va_list ap) {
     if ((flags & FPT) == 0) {
       PRINT(cp, size);
     } else { /* glue together f_p fragments */
-      if (decimal_point == nullptr) decimal_point = nl_langinfo(RADIXCHAR);
+      if (decimal_point == NULL) decimal_point = nl_langinfo(RADIXCHAR);
       if (!expchar) { /* %[fF] or sufficiently short %[gG] */
         if (expt <= 0) {
           PRINT(zeroes, 1);
@@ -694,9 +694,9 @@ overflow:
 finish:
   free(convbuf);
   if (dtoaresult) __freedtoa(dtoaresult);
-  if (argtable != nullptr && argtable != statargtable) {
+  if (argtable != NULL && argtable != statargtable) {
     munmap(argtable, argtablesiz);
-    argtable = nullptr;
+    argtable = NULL;
   }
   return (ret);
 }

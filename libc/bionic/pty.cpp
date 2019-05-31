@@ -55,11 +55,11 @@ char* ptsname(int fd) {
   bionic_tls& tls = __get_bionic_tls();
   char* buf = tls.ptsname_buf;
   int error = ptsname_r(fd, buf, sizeof(tls.ptsname_buf));
-  return (error == 0) ? buf : nullptr;
+  return (error == 0) ? buf : NULL;
 }
 
 int ptsname_r(int fd, char* buf, size_t len) {
-  if (buf == nullptr) {
+  if (buf == NULL) {
     errno = EINVAL;
     return errno;
   }
@@ -82,11 +82,11 @@ char* ttyname(int fd) {
   bionic_tls& tls = __get_bionic_tls();
   char* buf = tls.ttyname_buf;
   int error = ttyname_r(fd, buf, sizeof(tls.ttyname_buf));
-  return (error == 0) ? buf : nullptr;
+  return (error == 0) ? buf : NULL;
 }
 
 int ttyname_r(int fd, char* buf, size_t len) {
-  if (buf == nullptr) {
+  if (buf == NULL) {
     errno = EINVAL;
     return errno;
   }
@@ -124,7 +124,7 @@ int openpty(int* master, int* slave, char* name, const termios* t, const winsize
   }
 
   char buf[32];
-  if (name == nullptr) {
+  if (name == NULL) {
     name = buf;
   }
   if (ptsname_r(*master, name, sizeof(buf)) != 0) {
@@ -138,10 +138,10 @@ int openpty(int* master, int* slave, char* name, const termios* t, const winsize
     return -1;
   }
 
-  if (t != nullptr) {
+  if (t != NULL) {
     tcsetattr(*slave, TCSAFLUSH, t);
   }
-  if (ws != nullptr) {
+  if (ws != NULL) {
     ioctl(*slave, TIOCSWINSZ, ws);
   }
 
@@ -181,7 +181,7 @@ int forkpty(int* amaster, char* name, const termios* t, const winsize* ws) {
 int login_tty(int fd) {
   setsid();
 
-  if (ioctl(fd, TIOCSCTTY, nullptr) == -1) {
+  if (ioctl(fd, TIOCSCTTY, NULL) == -1) {
     return -1;
   }
 
