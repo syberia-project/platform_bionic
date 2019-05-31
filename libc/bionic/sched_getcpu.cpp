@@ -33,7 +33,7 @@ extern "C" int __getcpu(unsigned*, unsigned*, void*);
 
 int sched_getcpu() {
   unsigned cpu;
-  int rc = __getcpu(&cpu, nullptr, nullptr);
+  int rc = __getcpu(&cpu, NULL, NULL);
   if (rc == -1) {
     return -1; // errno is already set.
   }

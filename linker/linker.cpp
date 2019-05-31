@@ -3553,11 +3553,11 @@ bool soinfo::prelink_image() {
         "(new hash type from the future?)", get_realpath());
     return false;
   }
-  if (strtab_ == nullptr) {
+  if (strtab_ == 0) {
     DL_ERR("empty/missing DT_STRTAB in \"%s\"", get_realpath());
     return false;
   }
-  if (symtab_ == nullptr) {
+  if (symtab_ == 0) {
     DL_ERR("empty/missing DT_SYMTAB in \"%s\"", get_realpath());
     return false;
   }

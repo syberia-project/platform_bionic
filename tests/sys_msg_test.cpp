@@ -71,7 +71,7 @@ TEST(sys_msg, smoke) {
   ASSERT_STREQ("hello world", msg.data);
 
   // Destroy the queue.
-  ASSERT_EQ(0, msgctl(id, IPC_RMID, nullptr));
+  ASSERT_EQ(0, msgctl(id, IPC_RMID, 0));
 }
 
 TEST(sys_msg, msgctl_failure) {

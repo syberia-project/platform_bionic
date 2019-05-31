@@ -134,9 +134,9 @@ TEST(sys_time, lutimes_EINVAL) {
 TEST(sys_time, gettimeofday) {
   // Try to ensure that our vdso gettimeofday is working.
   timeval tv1;
-  ASSERT_EQ(0, gettimeofday(&tv1, nullptr));
+  ASSERT_EQ(0, gettimeofday(&tv1, NULL));
   timeval tv2;
-  ASSERT_EQ(0, syscall(__NR_gettimeofday, &tv2, nullptr));
+  ASSERT_EQ(0, syscall(__NR_gettimeofday, &tv2, NULL));
 
   // What's the difference between the two?
   tv2.tv_sec -= tv1.tv_sec;

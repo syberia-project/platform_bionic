@@ -31,13 +31,13 @@ class ScopedReaddir {
   }
 
   ~ScopedReaddir() {
-    if (dir_ != nullptr) {
+    if (dir_ != NULL) {
       closedir(dir_);
     }
   }
 
   bool IsBad() {
-    return dir_ == nullptr;
+    return dir_ == NULL;
   }
 
   dirent* ReadEntry() {

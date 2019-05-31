@@ -36,7 +36,7 @@ extern "C" const char* __strsignal(int, char*, size_t);
 char* strsignal(int signal_number) {
   // Just return the original constant in the easy cases.
   char* result = const_cast<char*>(__strsignal_lookup(signal_number));
-  if (result != nullptr) {
+  if (result != NULL) {
     return result;
   }
 
