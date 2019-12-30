@@ -87,7 +87,6 @@
 #define H_h	srcend
 #define tmp1	x14
 
-#define L(l) .L ## l
 
 /* Copies are split into 3 main cases: small copies of up to 32 bytes,
    medium copies of 33..128 bytes which are fully unrolled. Large copies
