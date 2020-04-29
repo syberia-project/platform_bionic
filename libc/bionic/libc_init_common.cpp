@@ -53,6 +53,8 @@
 #include "pthread_internal.h"
 
 extern "C" int __system_properties_init(void);
+extern "C" void scudo_malloc_set_zero_contents(int);
+extern "C" void scudo_malloc_set_pattern_fill_contents(int);
 
 __LIBC_HIDDEN__ WriteProtected<libc_globals> __libc_globals;
 
@@ -85,6 +87,14 @@ static void arc4random_fork_handler() {
   _thread_arc4_lock();
 }
 
+static void __libc_init_malloc_fill_contents() {
+#if defined(SCUDO_PATTERN_FILL_CONTENTS)
+  scudo_malloc_set_pattern_fill_contents(1);
+#elif defined(SCUDO_ZERO_CONTENTS)
+  scudo_malloc_set_zero_contents(1);
+#endif
+}
+
 __BIONIC_WEAK_FOR_NATIVE_BRIDGE
 void __libc_add_main_thread() {
   // Get the main thread from TLS and add it to the thread list.
@@ -108,6 +118,7 @@ void __libc_init_common() {
   __libc_init_fdsan(); // Requires system properties (for debug.fdsan).
   __libc_init_fdtrack();
 
+  __libc_init_malloc_fill_contents();
   SetDefaultHeapTaggingLevel();
 }
 
