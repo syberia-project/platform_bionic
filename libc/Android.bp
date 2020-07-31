@@ -1752,6 +1752,7 @@ cc_library_headers {
         "//system/core/debuggerd:__subpackages__",
         "//system/core/libcutils:__subpackages__",
         "//system/memory/libmemunreachable:__subpackages__",
+        "//vendor:__subpackages__",
     ],
     host_supported: true,
     vendor_available: true,
