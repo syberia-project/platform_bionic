@@ -125,6 +125,10 @@ cc_library {
         "//apex_available:platform",
         "com.android.runtime",
     ],
+
+    lto: {
+        never: true,
+    },
 }
 
 cc_library {
@@ -202,6 +206,10 @@ cc_library {
         "//apex_available:platform",
         "com.android.runtime",
     ],
+
+    lto: {
+        never: true,
+    },
 }
 
 ndk_library {
