@@ -46,7 +46,6 @@
 #include "malloc_common.h"
 #include "malloc_limit.h"
 #include "malloc_tagged_pointers.h"
-#include "memory_mitigation_state.h"
 
 // =============================================================================
 // Global variables instantations.
@@ -326,9 +325,6 @@ extern "C" bool android_mallopt(int opcode, void* arg, size_t arg_size) {
     __libc_globals.mutate([&](libc_globals* globals) {
       return MaybeInitGwpAsan(globals, *reinterpret_cast<bool*>(arg));
     });
-  }
-  if (opcode == M_DISABLE_MEMORY_MITIGATIONS) {
-    return DisableMemoryMitigations(arg, arg_size);
   }
   errno = ENOTSUP;
   return false;
