@@ -119,6 +119,38 @@ cc_defaults {
     // warning since this is intended right now.
     ldflags: ["-Wl,-z,muldefs"],
 
+<<<<<<< HEAD
+    multilib: {
+        lib64: {
+            product_variables: {
+                malloc_zero_contents: {
+                    cflags: ["-DSCUDO_ZERO_CONTENTS"],
+                },
+                malloc_pattern_fill_contents: {
+                    cflags: ["-DSCUDO_PATTERN_FILL_CONTENTS"],
+                },
+                malloc_not_svelte: {
+                    cflags: ["-DUSE_SCUDO"],
+                },
+            },
+        },
+        lib32: {
+            product_variables: {
+                malloc_zero_contents: {
+                    cflags: ["-DSCUDO_ZERO_CONTENTS"],
+                },
+                malloc_pattern_fill_contents: {
+                    cflags: ["-DSCUDO_PATTERN_FILL_CONTENTS"],
+                },
+                malloc_not_svelte_libc32: {
+                    cflags: ["-DUSE_SCUDO"],
+                },
+            },
+        },
+    },
+
+=======
+>>>>>>> 4d0e2c21e (bionic: Don't explicitly set scudo in common parts)
     lto: {
         never: true,
     },
@@ -126,12 +158,23 @@ cc_defaults {
 
 libc_scudo_product_variables = {
     malloc_zero_contents: {
-        cflags: ["-DSCUDO_ZERO_CONTENTS"],
-    },
-    malloc_pattern_fill_contents: {
-        cflags: ["-DSCUDO_PATTERN_FILL_CONTENTS"],
-    },
+            cflags: ["-DSCUDO_ZERO_CONTENTS"],
+        },
+        malloc_pattern_fill_contents: {
+            cflags: ["-DSCUDO_PATTERN_FILL_CONTENTS"],
+        },
     malloc_not_svelte: {
+        cflags: ["-DUSE_SCUDO"],
+        whole_static_libs: ["libscudo"],
+        exclude_static_libs: [
+            "libjemalloc5",
+            "libc_jemalloc_wrapper",
+        ],
+    },
+}
+
+libc32_scudo_product_variables = {
+    malloc_not_svelte_libc32: {
         cflags: ["-DUSE_SCUDO"],
         whole_static_libs: ["libscudo"],
         exclude_static_libs: [
@@ -154,6 +197,7 @@ libc_mimalloc_product_variables = {
         ],
     },
 }
+
 
 // Defaults for native allocator libs/includes to make it
 // easier to change.
@@ -382,6 +426,11 @@ cc_library_static {
         "upstream-freebsd/lib/libc/string/wmemset.c",
     ],
     arch: {
+        arm64: {
+            exclude_srcs: [
+                "upstream-freebsd/lib/libc/string/wmemmove.c",
+            ],
+        },
         x86: {
             exclude_srcs: [
                 "upstream-freebsd/lib/libc/string/wcschr.c",
@@ -798,7 +847,7 @@ cc_library_static {
     arch: {
         arm: {
             cflags: [
-                "-DHAVE_ASSEMBLER___MEMCPY_CHK",
+                "-DNO___MEMCPY_CHK",
                 "-DRENAME___STRCAT_CHK",
                 "-DRENAME___STRCPY_CHK",
             ],
@@ -825,10 +874,9 @@ cc_library_static {
             ],
         },
         arm64: {
-            cflags: ["-DHAVE_ASSEMBLER___MEMCPY_CHK"],
+            cflags: ["-DNO___MEMCPY_CHK"],
             srcs: [
-                "arch-arm64/string/__memcpy_chk.S",
-                "arch-arm64/string/__memset_chk.S",
+                "arch-arm64/generic/bionic/__memcpy_chk.S",
             ],
             kryo: {
                 srcs: [
@@ -921,6 +969,10 @@ cc_library_static {
         },
         arm64: {
             srcs: [
+                "arch-arm64/generic/bionic/memcpy.S",
+                "arch-arm64/generic/bionic/memmove.S",
+                "arch-arm64/generic/bionic/memset.S",
+                "arch-arm64/generic/bionic/wmemmove.S",
                 "arch-arm64/kryo785/bionic/__memcpy.S",
                 "arch-arm64/kryo785/bionic/memcpy.S",
                 "arch-arm64/kryo785/bionic/memmove.S",
@@ -932,6 +984,7 @@ cc_library_static {
                 "arch-arm64/bionic/vfork.S",
             ],
             exclude_srcs: [
+                "bionic/__memcpy_chk.cpp",
                 "bionic/strchr.cpp",
                 "bionic/strchrnul.cpp",
                 "bionic/strnlen.c",
@@ -2271,7 +2324,9 @@ cc_library_static {
       }
     },
     sdk_version: "minimum",
-
+    lto: {
+        thin: true,
+    },
     defaults: ["crt_and_memtag_defaults"],
 }
 
@@ -2283,7 +2338,9 @@ cc_library_static {
       }
     },
     sdk_version: "minimum",
-
+    lto: {
+        thin: true,
+    },
     defaults: ["crt_and_memtag_defaults"],
 }
 
