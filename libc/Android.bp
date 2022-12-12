@@ -55,7 +55,6 @@ libc_common_flags = [
     "-Wno-deprecated-declarations",
     "-Wno-gcc-compat",
     "-Wframe-larger-than=2048",
-    "-O3",
 
     // Try to catch typical 32-bit assumptions that break with 64-bit pointers.
     "-Werror=pointer-to-int-cast",
@@ -266,7 +265,6 @@ cc_library_static {
         "-DWILDABBR=\"\"",
         "-DNO_RUN_TIME_WARNINGS_ABOUT_YEAR_2000_PROBLEMS_THANK_YOU",
         "-Dlint",
-        "-O3",
     ],
 
     local_include_dirs: ["tzcode/"],
@@ -371,7 +369,6 @@ cc_library_static {
         "-Wno-sign-compare",
         "-Wno-unused-parameter",
         "-include freebsd-compat.h",
-        "-O3",
     ],
 
     local_include_dirs: [
@@ -391,7 +388,6 @@ cc_library_static {
         "-Wno-sign-compare",
         "-include freebsd-compat.h",
         "-Wframe-larger-than=66000",
-        "-O3",
     ],
 
     local_include_dirs: [
@@ -446,7 +442,6 @@ cc_library_static {
         "-Wno-unused-parameter",
         "-DPOSIX_MISTAKE",
         "-include netbsd-compat.h",
-        "-O3",
     ],
 
     local_include_dirs: [
@@ -579,7 +574,6 @@ cc_library_static {
         "-Wno-sign-compare",
         "-Wno-unused-parameter",
         "-include openbsd-compat.h",
-        "-O3",
     ],
 
     local_include_dirs: [
@@ -604,7 +598,6 @@ cc_library_static {
         "-include openbsd-compat.h",
         "-Wno-sign-compare",
         "-Wframe-larger-than=5000",
-        "-O3",
     ],
 
     local_include_dirs: [
@@ -694,7 +687,6 @@ cc_library_static {
         "-Wno-sign-compare",
         "-Wno-unused-parameter",
         "-include openbsd-compat.h",
-        "-O3",
     ],
 
     local_include_dirs: [
@@ -743,7 +735,6 @@ cc_library_static {
     cflags: [
         "-Wno-sign-compare",
         "-include openbsd-compat.h",
-        "-O3",
     ],
 
     local_include_dirs: [
@@ -770,7 +761,6 @@ cc_library_static {
     cflags: [
         "-U_FORTIFY_SOURCE",
         "-D__BIONIC_DECLARE_FORTIFY_HELPERS",
-        "-O3",
     ],
 
     arch: {
@@ -1447,7 +1437,6 @@ cc_library_static {
     cflags: [
         "-fvisibility=hidden",
         "-DLIBC_STATIC",
-        "-O3",
     ],
 
     whole_static_libs: [
@@ -2111,7 +2100,6 @@ cc_defaults {
         "-Wno-gcc-compat",
         "-Wall",
         "-Werror",
-        "-O3",
     ],
     sanitize: {
         never: true,
