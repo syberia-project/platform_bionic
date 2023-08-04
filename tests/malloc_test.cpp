@@ -1374,7 +1374,7 @@ static void SetAllocationLimitMultipleThreads() {
     threads[i]->join();
   }
   ASSERT_EQ(1U, num_successful) << "Only one thread should be able to set the limit.";
-  exit(0);
+  _exit(0);
 }
 #endif
 
